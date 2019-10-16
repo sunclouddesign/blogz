@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if single_post %}
+<h2>{{single_post.post_title}}</h2>
+<p>{{single_post.post_body}}</p>
+{% elif posts|length == 0 %}
+<h2>No posts yet</h2>
+<p><a href="/newpost">Write a new post?</a></p>
+{% else %}
+<h2>Blog Entries</h2>
+
+        {% for post in posts %}
+        <h3><a href="/post?id={{post.id}}" value="{{post.id}}" name="post_id" >{{post.post_title}}</a></h3>
+        <p>{{post.post_body}}</p>
+        <hr />
+        {% endfor %}
+
+{% endif %}
+
+{% endblock %}
