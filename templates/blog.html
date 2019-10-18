@@ -5,18 +5,29 @@
 {% if single_post %}
 <h2>{{single_post.post_title}}</h2>
 <p>{{single_post.post_body}}</p>
-{% elif posts|length == 0 %}
+{% elif author %}
+<h2>Single Users posts</h2>
+        {% for post in posts %}
+        <h3><a href="/post?id={{post.id}}" value="{{post.id}}" name="post_id" >{{post.post_title}}</a></h3>
+        <h4>Written by:<a href="/user?author={{author.username}}">{{ author.username }}</a></h4>
+        <p>{{post.post_body}}</p>
+        <hr />
+        {% endfor %}
+{% elif blogs|length == 0 %}
 <h2>No posts yet</h2>
 <p><a href="/newpost">Write a new post?</a></p>
 {% else %}
 <h2>Blog Entries</h2>
-
-        {% for post in posts %}
-        <h3><a href="/post?id={{post.id}}" value="{{post.id}}" name="post_id" >{{post.post_title}}</a></h3>
-        <p>{{post.post_body}}</p>
-        <hr />
+        {% for user in users %}
+                {% for blog in blogs %}
+                        {% if user.id == blog.owner_id %}
+                                <h3><a href="/post?id={{blog.id}}" value="{{blog.id}}" name="post_id" >{{blog.post_title}}</a></h3>
+                                <h4>Written by:<a href="/user?author={{user.username}}">{{ user.username }}</a></h4>
+                                <p>{{blog.post_body}}</p>
+                                <hr />
+                        {% endif %}
+                {% endfor %}
         {% endfor %}
-
 {% endif %}
 
 {% endblock %}
